@@ -1,6 +1,6 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
+  name: Horse Riding Ushguli & Svaneti
+  site: 'https://www.horseridingushguli.com'
   base: '/'
   trailingSlash: false
 
@@ -9,9 +9,10 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
+    default: Horse Riding Ushguli & Svaneti
     template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+  description: 'Experience the breathtaking beauty of Svaneti as you explore its ancient villages, alpine meadows, and legendary mountain trails on horseback.'
+
   robots:
     index: true
     follow: true
