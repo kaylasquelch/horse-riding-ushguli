@@ -1,0 +1,43 @@
+---
+import Layout from '~/layouts/Layout.astro';
+
+import heroImage from '~/assets/images/rsz_horse_riding_ushguli63.jpg';
+
+import Hero2 from '~/components/widgets/Hero2.astro';
+
+const metadata = {
+  title: 'Horse Riding Ushguli, Svaneti, Georgia',
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero2 Widget ******************* -->
+
+  <Hero2
+    tagline="Horse Riding Ushguli"
+    title="Explore Ushguli and Svaneti on horseback."
+    subtitle="Experience the breathtaking beauty of Svaneti as you explore its ancient villages, alpine meadows, and legendary mountain trails on horseback. Saddle up for an unforgettable adventure and discover why this extraordinary region of Georgia is best seen from the back of a horse."
+    actions={[
+      { variant: 'primary', text: 'Book your ride', href: '#', icon: 'tabler:square-rounded-arrow-right' },
+      { text: 'Learn more', href: '#' },
+    ]}
+    image={{
+      src: heroImage,
+      alt: 'Horse Riding in Ushguli, Svaneti, Georgia.',
+      width: 532,
+      height: 600,
+    }}
+  />
+  <!--
+<CallToAction
+    title="Explore Ushguli and Svaneti on horseback."
+    subtitle="Experience the breathtaking beauty of Svaneti as you explore its ancient villages, alpine meadows, and legendary mountain trails on horseback. Saddle up for an unforgettable adventure and discover why this extraordinary region of Georgia is best seen from the back of a horse."
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Book your ride',
+        href: 'https://github.com/arthelokyo/astrowind',
+      },
+    ]}
+  /> -->
+</Layout>
