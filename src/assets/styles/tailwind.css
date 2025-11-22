@@ -38,12 +38,12 @@
   }
 }
 
-    .tagline {
-      font-family: 'Beth Ellen', cursive;
-      font-weight: 400;
-      font-style: normal;
-      font-size: 38px;
-    }
+.tagline {
+  font-family: 'Beth Ellen', cursive;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 38px;
+}
 
 #header.scroll > div:first-child {
   @apply bg-page md:bg-white/90 md:backdrop-blur-md;
