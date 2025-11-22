@@ -1,7 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-
 import { defineConfig } from 'astro/config';
 
 import sitemap from '@astrojs/sitemap';
@@ -23,7 +22,6 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
   hasExternalScripts ? (Array.isArray(items) ? items.map((item) => item()) : [items()]) : [];
 
 export default defineConfig({
-
   base: '/horse-riding-ushguli/',
 
   output: 'static',
