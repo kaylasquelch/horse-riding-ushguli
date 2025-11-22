@@ -16,16 +16,12 @@ metadata:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: Horse Riding Ushguli & Svaneti
     images:
-      - url: '~/assets/images/default.png'
+      - url: '~/assets/images/rsz_horse_riding_ushguli63.jpg'
         width: 1200
         height: 628
     type: website
-  twitter:
-    handle: '@arthelokyo'
-    site: '@arthelokyo'
-    cardType: summary_large_image
 
 i18n:
   language: en

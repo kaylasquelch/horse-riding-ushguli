@@ -7,17 +7,6 @@ const metadata = {
   title: 'Horse Riding Ushguli, Svaneti, Georgia',
   description:
     'Experience the breathtaking beauty of Svaneti as you explore its ancient villages, alpine meadows, and legendary mountain trails on horseback.',
-  openGraph: {
-    image: [
-      {
-        image: heroImage,
-        url: heroImage.src,
-        width: heroImage.width,
-        height: heroImage.height,
-      },
-    ],
-    type: 'website',
-  },
 };
 ---
 
@@ -35,8 +24,8 @@ const metadata = {
     image={{
       src: heroImage,
       alt: 'Horse Riding in Ushguli, Svaneti, Georgia.',
-      width: 532,
-      height: 600,
+      width: heroImage.width,
+      height: heroImage.height,
     }}
   />
   <!--
