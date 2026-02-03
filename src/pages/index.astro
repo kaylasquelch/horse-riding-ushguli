@@ -1,12 +1,24 @@
 ---
 import Layout from '~/layouts/Layout.astro';
+import Image from '~/components/common/Image.astro';
+
 import heroImage from '~/assets/images/rsz_horse_riding_ushguli63.jpg';
 import toursImage from '~/assets/images/horse_riding_ushguli_22.jpg';
+import aboutImage from '~/assets/images/horse_riding_ishguli222.jpg';
 
-// Widgets
+import gallery1 from '~/assets/images/gallery1.jpg';
+import gallery2 from '~/assets/images/gallery2.jpg';
+import gallery3 from '~/assets/images/gallery3.jpg';
+import gallery4 from '~/assets/images/gallery4.jpg';
+import gallery5 from '~/assets/images/gallery5.jpg';
+import gallery6 from '~/assets/images/gallery6.jpg';
+import gallery7 from '~/assets/images/gallery7.jpg';
+import gallery8 from '~/assets/images/gallery8.jpg';
+
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import GallerySlider from '~/components/widgets/GallerySlider.astro';
 
 const metadata = {
   title: 'Horse Riding Ushguli, Svaneti, Georgia',
@@ -14,7 +26,7 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero: main above-the-fold section -->
+  <!-- Hero -->
   <Hero2
     tagline="Horse Riding Ushguli"
     title="Explore Ushguli and Svaneti on horseback."
@@ -30,85 +42,92 @@ const metadata = {
     ]}
     image={{
       src: heroImage,
-      alt: 'Horse Riding in Ushguli, Svaneti, Georgia.',
+      alt: 'Horse riding in Ushguli, Svaneti, Georgia.',
       width: heroImage.width,
       height: heroImage.height,
+      loading: 'eager',
     }}
   />
 
-<section id="tours" class="pt-8 pb-16 md:pt-10 md:pb-20 bg-page">
+  <!-- Tours -->
+  <section id="tours" class="pt-8 pb-16 md:pt-10 md:pb-20 bg-page">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <Features2
         title="Choose the best tour for you, or contact us to create your own itinerary"
-        tagline="Popular Routes"
+        tagline="Popular routes"
         columns={4}
         image={{
           src: toursImage,
           alt: 'Horse riding and tower village in Ushguli, Svaneti, Georgia.',
+          loading: 'lazy',
         }}
-        items={[
-          {
-            title: 'Shkhara Glacier day ride – 100 GEL',
-            description:
-              'Ride from Ushguli towards Georgia’s highest peak, crossing alpine meadows and river valleys. Same‑day trip.',
-          },
-          {
-            title: 'Tsamkvami Lake – 150 GEL',
-            description: 'Beautiful same‑day ride to Tsamkvami Lake with quiet trails and great views.',
-          },
-          {
-            title: 'The Pass – 150 GEL',
-            description: 'Same‑day climb to a scenic mountain pass with panoramic views over Svaneti.',
-          },
-          {
-            title: 'Gorvashi Lake – 150 GEL',
-            description: 'Day tour to Gorvashi Lake through forests and open meadows.',
-          },
-          {
-            title: 'Latfari Mountain – 150 GEL',
-            description: 'Latfari Mountain same‑day ride with sustained climbing and big‑mountain scenery.',
-          },
-          {
-            title: 'Gamkolli – 200 GEL',
-            description: 'Full‑day Gamkolli adventure with varied terrain and the biggest views of the area.',
-          },
-        ]}
       />
     </div>
   </section>
 
-  <!-- About section, using token-based text colors -->
-  <section class="py-16 md:py-24 bg-page">
-    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-page">
-      <p class="text-sm font-semibold tracking-wide uppercase text-primary mb-3">About us</p>
-      <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-[color:var(--aw-color-text-heading)] mb-6">
-        Local guides, mountain horses, real Svaneti experiences
-      </h2>
-      <p class="leading-relaxed mb-4">
-        We are a small, local team based in Ushguli, working with experienced mountain horses and guides who know every
-        trail, river crossing, and weather pattern in the valley.
-      </p>
-      <p class="leading-relaxed text-muted">
-        Whether it is your first time on horseback or you are an experienced rider, we’ll match you with the right
-        horse, route, and pace so you can relax, feel safe, and fully enjoy the mountains.
-      </p>
+  <!-- About with image left -->
+  <section class="py-12 md:py-16 bg-page">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:flex lg:items-center lg:gap-10">
+      <div class="basis-1/2 mb-8 lg:mb-0">
+        <Image
+          class="mx-auto rounded-md w-full"
+          widths={[480, 768, 1024, 1440]}
+          sizes="(max-width: 767px) 480px, (max-width: 1023px) 768px, (max-width: 1439px) 1024px, 1440px"
+          loading="lazy"
+          src={aboutImage}
+          alt="Riders on horseback following a mountain valley trail near Ushguli, Svaneti, Georgia."
+        />
+      </div>
+
+      <div class="basis-1/2 text-page">
+        <p class="text-xs md:text-sm font-semibold tracking-wide uppercase text-primary mb-2">
+          About us
+        </p>
+        <h2 class="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-[color:var(--aw-color-text-heading)] mb-4">
+          Local guides, mountain horses, real Svaneti experiences
+        </h2>
+        <p class="leading-relaxed mb-3">
+          We are a small, local team based in Ushguli, working with experienced mountain horses and guides who know every
+          trail, river crossing, and weather pattern in the valley.
+        </p>
+        <p class="leading-relaxed">
+          Whether it is your first time on horseback or you are an experienced rider, we’ll match you with the right
+          horse, route, and pace so you can relax, feel safe, and fully enjoy the mountains.
+        </p>
+      </div>
     </div>
   </section>
 
-  <!-- Call to action, same container + background -->
-  <section class="py-16 md:py-24 bg-page">
+  <!-- Gallery + CTA -->
+   <section class="py-12 md:py-16 bg-page">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-page">
-      <CallToAction
-        title="Ready to ride in Ushguli?"
-        subtitle="Send us a WhatsApp message with your preferred dates, group size, and riding experience. We’ll reply with suggested routes and prices."
-        actions={[
-          {
-            variant: 'primary',
-            text: 'Book your ride on WhatsApp',
-            href: 'https://wa.me/995599038579?text=Hi%2C%20I%27m%20interested%20in%20horse%20riding%20in%20Ushguli',
-          },
+      <GallerySlider
+        images={[gallery1, gallery2, gallery3, gallery4, gallery5, gallery6, gallery7, gallery8]}
+        altTexts={[
+          'Riders on the Ushguli valley track',
+          'Village and towers in Ushguli',
+          'Horse saddled in front of Shkhara',
+          'Crossing a river near Ushguli',
+          'Evening light over Svaneti peaks',
+          'Riders climbing towards the pass',
+          'Trail above the Enguri river valley',
+          'Morning ride leaving Ushguli village',
         ]}
       />
+
+      <div class="mt-8">
+        <CallToAction
+          title="Ready to ride in Ushguli?"
+          subtitle="Send us a WhatsApp message with your preferred dates, group size, and riding experience. We’ll reply with suggested routes and prices."
+          actions={[
+            {
+              variant: 'primary',
+              text: 'Book your ride on WhatsApp',
+              href: 'https://wa.me/995599038579?text=Hi%2C%20I%27m%20interested%20in%20horse%20riding%20in%20Ushguli',
+            },
+          ]}
+        />
+      </div>
     </div>
   </section>
 </Layout>

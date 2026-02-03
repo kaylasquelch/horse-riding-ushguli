@@ -1,0 +1,101 @@
+---
+import Image from '~/components/common/Image.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  images: ImageMetadata[];
+  altTexts?: string[];
+}
+
+const { images = [], altTexts = [] } = Astro.props;
+const total = images.length;
+---
+
+{
+  total > 0 && (
+    <div class="mt-10" data-gallery-root>
+      <div class="relative m-auto max-w-5xl">
+        {images.map((img, index) => (
+          <div class={`slide ${index === 0 ? 'slide-active' : 'hidden'}`} data-slide-index={index}>
+            <Image
+              class="mx-auto rounded-md w-full"
+              widths={[400, 768, 1024, 2040]}
+              sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+              loading="lazy"
+              src={img}
+              alt={altTexts[index] ?? 'Horse riding in Ushguli, Svaneti, Georgia.'}
+            />
+          </div>
+        ))}
+
+        <button
+          type="button"
+          class="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-page/80 px-3 py-2 text-sm font-medium shadow hover:bg-page"
+          data-gallery-prev
+        >
+          ‹
+        </button>
+        <button
+          type="button"
+          class="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-page/80 px-3 py-2 text-sm font-medium shadow hover:bg-page"
+          data-gallery-next
+        >
+          ›
+        </button>
+
+        <div class="mt-3 text-center text-xs text-muted">
+          <span data-gallery-counter>1</span> / {total}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+<style>
+  .slide-active {
+    display: block;
+  }
+</style>
+
+<script is:inline>
+  function initGallery(root) {
+    if (!root) return;
+
+    const slides = Array.from(root.querySelectorAll('[data-slide-index]'));
+    const counter = root.querySelector('[data-gallery-counter]');
+    const total = slides.length;
+    let current = 0;
+
+    function showSlide(index) {
+      slides.forEach((el, i) => {
+        el.classList.toggle('slide-active', i === index);
+        el.classList.toggle('hidden', i !== index);
+      });
+      if (counter) counter.textContent = String(index + 1);
+    }
+
+    root.querySelector('[data-gallery-prev]')?.addEventListener('click', () => {
+      current = (current - 1 + total) % total;
+      showSlide(current);
+    });
+
+    root.querySelector('[data-gallery-next]')?.addEventListener('click', () => {
+      current = (current + 1) % total;
+      showSlide(current);
+    });
+  }
+
+ 
+  document.addEventListener('DOMContentLoaded', () => {
+    document
+      .querySelectorAll('[data-gallery-root]')
+      .forEach((root) => initGallery(root));
+  });
+
+  
+  document.addEventListener('astro:page-load', () => {
+    document
+      .querySelectorAll('[data-gallery-root]')
+      .forEach((root) => initGallery(root));
+  });
+</script>
