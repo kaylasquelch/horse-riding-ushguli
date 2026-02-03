@@ -49,11 +49,10 @@
     @apply text-[var(--aw-color-text-heading)];
   }
 }
-  .btn-tertiary:hover,
-  .btn-tertiary:focus {
-    @apply text-[var(--aw-color-text-heading)];
-  }
-
+.btn-tertiary:hover,
+.btn-tertiary:focus {
+  @apply text-[var(--aw-color-text-heading)];
+}
 
 .tagline {
   font-family: 'Beth Ellen', cursive;
@@ -109,7 +108,6 @@
 [data-aw-toggle-menu].expanded g > path:last-child {
   @apply rotate-45 translate-y-[-8px] translate-x-[14px];
 }
-
 
 /* To deprecated */
 

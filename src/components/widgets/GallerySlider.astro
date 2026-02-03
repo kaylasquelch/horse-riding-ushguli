@@ -85,17 +85,11 @@ const total = images.length;
     });
   }
 
- 
   document.addEventListener('DOMContentLoaded', () => {
-    document
-      .querySelectorAll('[data-gallery-root]')
-      .forEach((root) => initGallery(root));
+    document.querySelectorAll('[data-gallery-root]').forEach((root) => initGallery(root));
   });
 
-  
   document.addEventListener('astro:page-load', () => {
-    document
-      .querySelectorAll('[data-gallery-root]')
-      .forEach((root) => initGallery(root));
+    document.querySelectorAll('[data-gallery-root]').forEach((root) => initGallery(root));
   });
 </script>
