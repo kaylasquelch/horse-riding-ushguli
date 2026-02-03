@@ -9,6 +9,22 @@ import aboutImage from '~/assets/images/horse_riding_ishguli2224.jpg';
 import gallery1 from '~/assets/images/gallery1.jpg';
 import gallery2 from '~/assets/images/gallery2.jpg';
 import gallery3 from '~/assets/images/gallery3.jpg';
+import gallery4 from '~/assets/images/gallery4.jpg';
+import gallery5 from '~/assets/images/gallery5.jpg';
+import gallery6 from '~/assets/images/gallery6.jpg';
+import gallery7 from '~/assets/images/gallery7.jpg';
+import gallery9 from '~/assets/images/gallery9.jpg';
+import gallery10 from '~/assets/images/gallery10.jpg';
+import gallery11 from '~/assets/images/gallery11.jpg';
+import gallery12 from '~/assets/images/gallery12.jpg';
+import gallery13 from '~/assets/images/gallery13.jpg';
+import gallery14 from '~/assets/images/gallery14.jpg';
+import gallery15 from '~/assets/images/gallery15.jpg';
+import gallery16 from '~/assets/images/gallery16.jpg';
+import gallery17 from '~/assets/images/gallery17.jpg';
+import gallery18 from '~/assets/images/gallery18.jpg';
+import gallery19 from '~/assets/images/gallery19.jpg';
+import gallery20 from '~/assets/images/gallery20.jpg';
 
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Features2 from '~/components/widgets/Features2.astro';
@@ -124,27 +140,64 @@ const metadata = {
   <section class="py-12 md:py-16 bg-page">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-page">
       <GallerySlider
-        images={[gallery1, gallery2, gallery3]}
+        images={[
+          gallery1,
+          gallery2,
+          gallery3,
+          gallery4,
+          gallery5,
+          gallery6,
+          gallery7,
+          gallery9,
+          gallery10,
+          gallery11,
+          gallery12,
+          gallery13,
+          gallery14,
+          gallery15,
+          gallery16,
+          gallery17,
+          gallery18,
+          gallery19,
+          gallery20,
+        ]}
         altTexts={[
           'Riders on the Ushguli valley track',
           'Village and towers in Ushguli',
           'Horse saddled in front of Shkhara',
+          'Crossing a river near Ushguli',
+          'Evening light over Svaneti peaks',
+          'Riders climbing towards the pass',
+          'Trail above the Enguri river valley',
+          'Morning ride leaving Ushguli village',
+          'View of towers and mountains from the trail',
+          'Horses resting near a mountain stream',
+          'Rider crossing a wooden bridge near Ushguli',
+          'Group ride through alpine meadow above the village',
+          'Trail leading towards Shkhara Glacier viewpoint',
+          'Horses tied near ancient Svan towers',
+          'Riders descending a ridge at sunset',
+          'Track overlooking the Enguri river gorge',
+          'Close‑up of horse and traditional Svan saddle',
+          'Riders passing a small chapel above Ushguli',
+          'Wide view of the valley and snow‑capped peaks',
+          'Evening ride returning to Ushguli village',
         ]}
       />
-
-      <div class="mt-8">
-        <CallToAction
-          title="Ready to ride in Ushguli?"
-          subtitle="Send us a WhatsApp message with your preferred dates, group size, and riding experience. We’ll reply with suggested routes and prices."
-          actions={[
-            {
-              variant: 'primary',
-              text: 'Book your ride on WhatsApp',
-              href: 'https://wa.me/995599038579?text=Hi%2C%20I%27m%20interested%20in%20horse%20riding%20in%20Ushguli',
-            },
-          ]}
-        />
-      </div>
     </div>
-  </section></Layout
->
+  </section>
+
+  <div class="mt-8">
+    <CallToAction
+      title="Ready to ride in Ushguli?"
+      subtitle="Send us a WhatsApp message with your preferred dates, group size, and riding experience. We’ll reply with suggested routes and prices."
+      actions={[
+        {
+          variant: 'primary',
+          text: 'Book your ride on WhatsApp',
+          href: 'https://wa.me/995599038579?text=Hi%2C%20I%27m%20interested%20in%20horse%20riding%20in%20Ushguli',
+        },
+      ]}
+    />
+  </div>
+</Layout>
