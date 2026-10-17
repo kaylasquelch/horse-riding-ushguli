@@ -294,9 +294,9 @@ const structuredData = {
   <main id="main">
     <!-- The place -->
     <section id="place" class="section">
-      <div class="wrap grid gap-8 md:grid-cols-12">
-        <p class="eyebrow text-accent md:col-span-3 md:pt-3">The place</p>
-        <div class="md:col-span-9">
+      <div class="wrap">
+        <p class="eyebrow text-accent">The place</p>
+        <div class="mt-5 max-w-4xl">
           <p class="statement">
             Ushguli is a cluster of four villages at the head of the Enguri valley in Upper Svaneti, beneath Shkhara,
             Georgia’s highest peak. Its medieval stone towers are part of a UNESCO World Heritage Site, and the trails
@@ -325,49 +325,50 @@ const structuredData = {
 
     <!-- Routes -->
     <section id="tours" class="section">
-      <div class="wrap">
-        <div class="grid gap-6 md:grid-cols-12 mb-10 md:mb-14">
-          <p class="eyebrow text-accent md:col-span-3 md:pt-4">Day rides</p>
-          <div class="md:col-span-9">
-            <h2 class="h2">Six routes from the village</h2>
-            <p class="lede mt-4">
-              All rides are same-day trips. Prices are per rider, in Georgian lari. Want something longer or different?
-              Message us and we’ll plan your own route.
-            </p>
+      <div class="wrap routes-layout">
+        <div>
+          <div class="mb-10 md:mb-14 max-w-3xl">
+            <p class="eyebrow text-accent">Day rides</p>
+            <div class="mt-4">
+              <h2 class="h2">Six routes from the village</h2>
+              <p class="lede mt-4">
+                All rides are same-day trips. Prices are per rider, in Georgian lari. Want something longer or
+                different? Message us and we’ll plan your own route.
+              </p>
+            </div>
           </div>
+
+          <ol class="routes">
+            {
+              routes.map((route, index) => (
+                <li class="route">
+                  <span class="route-number">{String(index + 1).padStart(2, '0')}</span>
+                  <h3 class="route-name">{route.name}</h3>
+                  <p class="route-price">
+                    {route.price} <span>GEL</span>
+                  </p>
+                  <div class="route-body">
+                    <p class="route-summary">{route.summary}</p>
+                    {(route.duration || route.difficulty || showPlaceholders) && (
+                      <p class="route-meta">
+                        <span>{route.duration ?? <span class="tbc">To confirm: hours in the saddle</span>}</span>
+                        <span>{route.difficulty ?? <span class="tbc">To confirm: easy, moderate or hard</span>}</span>
+                      </p>
+                    )}
+                  </div>
+                </li>
+              ))
+            }
+          </ol>
         </div>
-
-        <ol class="routes">
-          {
-            routes.map((route, index) => (
-              <li class="route">
-                <span class="route-number">{String(index + 1).padStart(2, '0')}</span>
-                <h3 class="route-name">{route.name}</h3>
-                <p class="route-price">
-                  {route.price} <span>GEL</span>
-                </p>
-                <div class="route-body">
-                  <p class="route-summary">{route.summary}</p>
-                  {(route.duration || route.difficulty || showPlaceholders) && (
-                    <p class="route-meta">
-                      <span>{route.duration ?? <span class="tbc">To confirm: hours in the saddle</span>}</span>
-                      <span>{route.difficulty ?? <span class="tbc">To confirm: easy, moderate or hard</span>}</span>
-                    </p>
-                  )}
-                </div>
-              </li>
-            ))
-          }
-        </ol>
-
-        <p class="mt-10">
+        <aside class="routes-aside" aria-label="Book a ride">
           <a class="pill pill-accent" href={whatsappHref}>Ask about a ride</a>
-        </p>
+        </aside>
       </div>
     </section>
 
     <!-- About -->
-    <section class="section pt-0">
+    <section class="section">
       <div class="wrap grid gap-10 lg:grid-cols-12 lg:items-center">
         <div class="lg:col-span-6">
           <Image
@@ -397,9 +398,9 @@ const structuredData = {
     <!-- Collage of short clips and photos -->
     <section class="section section-tint">
       <div class="wrap">
-        <div class="grid gap-6 md:grid-cols-12 mb-10 md:mb-14">
-          <p class="eyebrow text-accent md:col-span-3 md:pt-4">Around Ushguli</p>
-          <h2 class="h2 md:col-span-9">Towers, glaciers and the horses that know the way</h2>
+        <div class="mb-10 md:mb-14 max-w-3xl">
+          <p class="eyebrow text-accent">Around Ushguli</p>
+          <h2 class="h2 mt-4">Towers, glaciers and the horses that know the way</h2>
         </div>
         <div class="collage grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
           {
@@ -452,9 +453,9 @@ const structuredData = {
     </section>
 
     <!-- Gallery -->
-    <section class="section pt-0">
-      <div class="wrap max-w-5xl">
-        <p class="eyebrow text-accent mb-6">More photos</p>
+    <section class="section">
+      <div class="wrap max-w-5xl gallery">
+        <p class="eyebrow text-accent mb-5">More photos</p>
         <h2 class="sr-only">Photos from Ushguli</h2>
         <GallerySlider
           images={[
@@ -509,7 +510,7 @@ const structuredData = {
         style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
       />
       <div class="absolute inset-0 -z-10 bg-[#221f1b]/60"></div>
-      <div class="wrap text-center py-28 md:py-40">
+      <div class="wrap text-center py-24 md:py-32">
         <p class="eyebrow text-white/80">Book your ride</p>
         <h2 class="display mt-4 text-white">Ready to ride in Ushguli?</h2>
         <p class="mt-5 text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
@@ -519,7 +520,6 @@ const structuredData = {
         <p class="mt-8">
           <a class="pill pill-accent" href={whatsappHref}>Book on WhatsApp</a>
         </p>
-        <p class="mt-4 text-white/80">or message {phoneDisplay} on WhatsApp</p>
       </div>
     </section>
   </main>
@@ -761,7 +761,14 @@ const structuredData = {
 
   /* Sections */
   .section {
-    padding-block: clamp(4.5rem, 10vw, 8.5rem);
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+  }
+  /* Two plain sections in a row share one gap instead of doubling it */
+  .section:not(.section-tint) + .section:not(.section-tint) {
+    padding-top: 0;
+  }
+  .gallery :global([data-gallery-root]) {
+    margin-top: 0;
   }
   .section-tint {
     background: #ece5d8;
@@ -797,6 +804,25 @@ const structuredData = {
     font-size: 15px;
   }
 
+  /* Routes: the ask button stays in view on the right while the list scrolls */
+  .routes-aside {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .routes-layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 3.5rem;
+    }
+    .routes-aside {
+      display: block;
+    }
+    .routes-aside .pill {
+      position: sticky;
+      top: 2rem;
+    }
+  }
+
   /* Routes */
   .routes {
     border-top: 1px solid rgb(33 30 26 / 22%);
@@ -814,7 +840,7 @@ const structuredData = {
   }
   @media (min-width: 768px) {
     .route {
-      grid-template-columns: calc(25% - 1.5rem) 1fr auto;
+      grid-template-columns: 4rem 1fr auto;
       grid-template-areas:
         'num name price'
         '. body .';
@@ -903,7 +929,7 @@ const structuredData = {
 
   /* Closing and footer */
   .closing {
-    min-height: 70vh;
+    min-height: min(70vh, 640px);
     display: flex;
     align-items: center;
   }
@@ -914,7 +940,7 @@ const structuredData = {
     background: #221f1b;
     color: #f5f0e7;
   }
-  @media (max-width: 767px) {
+  @media (max-width: 1023px) {
     .site-footer {
       padding-bottom: 72px;
     }
@@ -934,6 +960,8 @@ const structuredData = {
     position: fixed;
     left: 16px;
     right: 16px;
+    max-width: 420px;
+    margin-inline: auto;
     bottom: calc(14px + env(safe-area-inset-bottom));
     z-index: 40;
     box-shadow: 0 8px 24px rgb(20 16 12 / 28%);
@@ -943,7 +971,7 @@ const structuredData = {
   :global(.sticky-book.is-visible) {
     transform: none;
   }
-  @media (min-width: 768px) {
+  @media (min-width: 1024px) {
     .sticky-book {
       display: none;
     }
