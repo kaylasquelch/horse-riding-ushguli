@@ -6,6 +6,10 @@ import heroImage from '~/assets/images/rsz_horse_riding_ushguli63.jpg';
 import toursImage from '~/assets/images/horse_riding_ushguli_224.jpg';
 import aboutImage from '~/assets/images/horse_riding_ishguli2224.jpg';
 import ogImage from '~/assets/images/og-ushguli.jpg';
+import goldenHourHorses from '~/assets/images/golden-hour-horses.jpg';
+import churchBells from '~/assets/images/church-bells.jpg';
+import ushguliTowersSun from '~/assets/images/ushguli-towers-sun.jpg';
+import shkharaAlpenglow from '~/assets/images/shkhara-alpenglow.jpg';
 
 import gallery1 from '~/assets/images/gallery1.jpg';
 import gallery2 from '~/assets/images/gallery2.jpg';
@@ -338,6 +342,58 @@ const structuredData = {
             alt="A guide with a bay and a grey horse beside a small lake below Shkhara glacier."
             class="h-full w-full"
             style=";object-fit:cover;object-position:50% 100%;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
+          />
+        </figure>
+        <figure class="aspect-video">
+          <Image
+            src={churchBells}
+            widths={[400, 640, 800]}
+            sizes="(max-width: 767px) 50vw, 280px"
+            alt="Three church bells hanging on a wooden frame in Ushguli, with snowy peaks behind."
+            class="h-full w-full"
+            style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
+          />
+        </figure>
+        <figure class="aspect-video">
+          <video muted loop playsinline preload="none" poster="/video/cows-road.jpg" data-loop>
+            <source src="/video/cows-road.mp4" type="video/mp4" />
+          </video>
+          <figcaption class="sr-only">Cows wandering along the road in Ushguli below Shkhara.</figcaption>
+        </figure>
+        <figure class="aspect-video">
+          <Image
+            src={ushguliTowersSun}
+            widths={[400, 640, 800]}
+            sizes="(max-width: 767px) 50vw, 280px"
+            alt="The Svan towers of Ushguli on a sunny afternoon."
+            class="h-full w-full"
+            style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
+          />
+        </figure>
+        <figure class="aspect-video">
+          <Image
+            src={shkharaAlpenglow}
+            widths={[400, 640, 800]}
+            sizes="(max-width: 767px) 50vw, 280px"
+            alt="Shkhara glowing pink at sunset above the clouds."
+            class="h-full w-full"
+            style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
+          />
+        </figure>
+        <figure class="col-span-2 aspect-video">
+          <video muted loop playsinline preload="none" poster="/video/rider-slope.jpg" data-loop>
+            <source src="/video/rider-slope.mp4" type="video/mp4" />
+          </video>
+          <figcaption class="sr-only">A rider leading a saddled horse across a high slope above the valley.</figcaption>
+        </figure>
+        <figure class="col-span-2 aspect-video">
+          <Image
+            src={goldenHourHorses}
+            widths={[480, 768, 1024, 1600]}
+            sizes="(max-width: 767px) 100vw, 560px"
+            alt="Two horses grazing on stony ground in the evening light, with snowy peaks at the head of the valley."
+            class="h-full w-full"
+            style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
           />
         </figure>
       </div>
