@@ -54,8 +54,7 @@ const routes: Route[] = [
   {
     name: 'Shkhara Glacier',
     price: 100,
-    summary:
-      'Ride from Ushguli towards Shkhara, Georgia’s highest peak, crossing alpine meadows and river valleys.',
+    summary: 'Ride from Ushguli towards Shkhara, Georgia’s highest peak, crossing alpine meadows and river valleys.',
     duration: null,
     difficulty: null,
   },
@@ -149,7 +148,7 @@ const structuredData = {
 ---
 
 <Layout metadata={metadata}>
-  <script slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
   <!-- Hero -->
   <Hero2
@@ -268,7 +267,9 @@ const structuredData = {
   <!-- Good to know -->
   <section id="good-to-know" class="py-12 md:py-16 bg-page">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter font-heading text-heading mb-6 md:mb-8">
+      <h2
+        class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter font-heading text-heading mb-6 md:mb-8"
+      >
         Good to know before you ride
       </h2>
       <dl class="grid gap-x-10 gap-y-6 md:grid-cols-2">
