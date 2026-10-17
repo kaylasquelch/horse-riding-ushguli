@@ -10,8 +10,8 @@ site:
 metadata:
   title:
     default: Horse Riding Ushguli & Svaneti
-    template: '%s — AstroWind'
-  description: 'Experience the breathtaking beauty of Svaneti as you explore its ancient villages, alpine meadows, and legendary mountain trails on horseback.'
+    template: '%s'
+  description: 'Same-day horse rides from Ushguli, Svaneti, Georgia, to Shkhara Glacier, mountain lakes and passes, with local guides and mountain horses. Book on WhatsApp.'
 
   robots:
     index: true
@@ -19,10 +19,13 @@ metadata:
   openGraph:
     site_name: Horse Riding Ushguli & Svaneti
     images:
-      - url: '~/assets/images/rsz_horse_riding_ushguli63.jpg'
+      - url: '~/assets/images/og-ushguli.jpg'
         width: 1200
-        height: 628
+        height: 630
     type: website
+
+  twitter:
+    cardType: summary_large_image
 
 i18n:
   language: en
@@ -30,7 +33,7 @@ i18n:
 
 apps:
   blog:
-    isEnabled: true
+    isEnabled: false
     postsPerPage: 6
 
     post:

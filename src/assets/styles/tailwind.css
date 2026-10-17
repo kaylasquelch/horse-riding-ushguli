@@ -58,7 +58,8 @@
   font-family: 'Beth Ellen', cursive;
   font-weight: 400;
   font-style: normal;
-  font-size: 38px;
+  font-size: clamp(28px, 7vw, 38px);
+  line-height: 1.6;
 }
 
 #header.scroll > div:first-child {

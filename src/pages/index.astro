@@ -5,6 +5,7 @@ import Image from '~/components/common/Image.astro';
 import heroImage from '~/assets/images/rsz_horse_riding_ushguli63.jpg';
 import toursImage from '~/assets/images/horse_riding_ushguli_224.jpg';
 import aboutImage from '~/assets/images/horse_riding_ishguli2224.jpg';
+import ogImage from '~/assets/images/og-ushguli.jpg';
 
 import gallery1 from '~/assets/images/gallery1.jpg';
 import gallery2 from '~/assets/images/gallery2.jpg';
@@ -24,19 +25,132 @@ import gallery16 from '~/assets/images/gallery16.jpg';
 import gallery17 from '~/assets/images/gallery17.jpg';
 import gallery18 from '~/assets/images/gallery18.jpg';
 import gallery19 from '~/assets/images/gallery19.jpg';
-import gallery20 from '~/assets/images/gallery20.jpg';
 
 import Hero2 from '~/components/widgets/Hero2.astro';
-import Features2 from '~/components/widgets/Features2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import GallerySlider from '~/components/widgets/GallerySlider.astro';
 
 const metadata = {
-  title: 'Horse Riding Ushguli, Svaneti, Georgia',
+  title: 'Horse Riding in Ushguli, Svaneti, Georgia | Day Rides',
+};
+
+// Facts still waiting on the horseman are `null`. In `npm run dev` they show as
+// highlighted "To confirm" notes; in the production build the line is left out.
+const showPlaceholders = import.meta.env.DEV;
+
+const phoneDisplay = '+995 599 03 85 79';
+const whatsappHref = 'https://wa.me/995599038579?text=Hi%2C%20I%27m%20interested%20in%20horse%20riding%20in%20Ushguli';
+const googleMapsHref: string | null = null; // Google Business Profile link, once it exists
+
+type Route = {
+  name: string;
+  price: number;
+  summary: string;
+  duration: string | null;
+  difficulty: string | null;
+};
+
+const routes: Route[] = [
+  {
+    name: 'Shkhara Glacier',
+    price: 100,
+    summary:
+      'Ride from Ushguli towards Shkhara, Georgia’s highest peak, crossing alpine meadows and river valleys.',
+    duration: null,
+    difficulty: null,
+  },
+  {
+    name: 'Tsamkvami Lake',
+    price: 150,
+    summary: 'A ride to Tsamkvami Lake on quiet trails, with wide mountain views.',
+    duration: null,
+    difficulty: null,
+  },
+  {
+    name: 'The Pass',
+    price: 150,
+    summary: 'A steady climb to a mountain pass with panoramic views over Svaneti.',
+    duration: null,
+    difficulty: null,
+  },
+  {
+    name: 'Gorvashi Lake',
+    price: 150,
+    summary: 'Through forest and open meadow to Gorvashi Lake.',
+    duration: null,
+    difficulty: null,
+  },
+  {
+    name: 'Latfari Mountain',
+    price: 150,
+    summary: 'A long, sustained climb with big-mountain scenery all the way up.',
+    duration: null,
+    difficulty: null,
+  },
+  {
+    name: 'Gamkolli',
+    price: 200,
+    summary: 'A full day over varied ground, with the biggest views in the area.',
+    duration: null,
+    difficulty: null,
+  },
+];
+
+type Fact = { label: string; value: string | null; hint?: string };
+
+const goodToKnow: Fact[] = [
+  { label: 'Season', value: null, hint: 'which months the rides run' },
+  { label: 'Meeting point', value: null, hint: 'where riders meet in Ushguli, ideally with a map pin' },
+  { label: 'Included', value: null, hint: 'guide, horse, helmet? lunch or snacks?' },
+  { label: 'Who can ride', value: null, hint: 'beginners welcome? minimum age, weight limit' },
+  { label: 'Payment', value: null, hint: 'cash in GEL on the day? deposit?' },
+  {
+    label: 'What to bring',
+    value:
+      'Long trousers, closed shoes with a small heel, warm and waterproof layers (the weather turns fast in the mountains), sun cream, sunglasses and water.',
+  },
+  {
+    label: 'Booking',
+    value: `Send us a WhatsApp message with your dates, group size and riding experience. Want something longer or different? Ask and we’ll plan your own route.`,
+  },
+];
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': 'https://www.horseridingushguli.com/#business',
+  name: 'Horse Riding Ushguli',
+  description:
+    'Guided same-day horse rides from Ushguli, Svaneti, Georgia, to Shkhara Glacier, mountain lakes and passes.',
+  url: 'https://www.horseridingushguli.com/',
+  image: new URL(ogImage.src, Astro.site).toString(),
+  telephone: '+995599038579',
+  priceRange: '100–200 GEL',
+  currenciesAccepted: 'GEL',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Ushguli',
+    addressRegion: 'Samegrelo-Zemo Svaneti',
+    addressCountry: 'GE',
+  },
+  areaServed: 'Svaneti, Georgia',
+  ...(googleMapsHref ? { hasMap: googleMapsHref } : {}),
+  makesOffer: routes.map((route) => ({
+    '@type': 'Offer',
+    price: route.price,
+    priceCurrency: 'GEL',
+    itemOffered: {
+      '@type': 'TouristTrip',
+      name: `${route.name} horse ride from Ushguli`,
+      description: route.summary,
+    },
+  })),
 };
 ---
 
 <Layout metadata={metadata}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
   <!-- Hero -->
   <Hero2
     tagline="Horse Riding Ushguli"
@@ -46,14 +160,14 @@ const metadata = {
       {
         variant: 'primary',
         text: 'Book your ride',
-        href: 'https://wa.me/995599038579?text=Hi%2C%20I%27m%20interested%20in%20horse%20riding%20in%20Ushguli',
+        href: whatsappHref,
         icon: 'tabler:square-rounded-arrow-right',
       },
-      { text: 'Learn more', href: '#tours' },
+      { text: 'See the routes', href: '#tours' },
     ]}
     image={{
       src: heroImage,
-      alt: 'Horse riding in Ushguli, Svaneti, Georgia.',
+      alt: 'A saddled bay horse grazing below the snow-covered Shkhara massif near Ushguli.',
       width: heroImage.width,
       height: heroImage.height,
       loading: 'eager',
@@ -61,45 +175,60 @@ const metadata = {
   />
 
   <!-- Tours -->
-  <section id="tours" class="pt-8 pb-16 md:pt-10 md:pb-20 bg-page">
+  <section id="tours" class="pt-8 pb-16 md:pt-10 md:pb-20 bg-page scroll-mt-4">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <Features2
-        title="Choose the best tour for you, or contact us to create your own itinerary"
-        tagline="Popular routes"
-        columns={4}
-        items={[
-          {
-            title: 'Shkhara Glacier day ride – 100 GEL',
-            description:
-              'Ride from Ushguli towards Georgia’s highest peak, crossing alpine meadows and river valleys. Same‑day trip.',
-          },
-          {
-            title: 'Tsamkvami Lake – 150 GEL',
-            description: 'Beautiful same‑day ride to Tsamkvami Lake with quiet trails and great views.',
-          },
-          {
-            title: 'The Pass – 150 GEL',
-            description: 'Same‑day climb to a scenic mountain pass with panoramic views over Svaneti.',
-          },
-          {
-            title: 'Gorvashi Lake – 150 GEL',
-            description: 'Day tour to Gorvashi Lake through forests and open meadows.',
-          },
-          {
-            title: 'Latfari Mountain – 150 GEL',
-            description: 'Latfari Mountain same‑day ride with sustained climbing and big‑mountain scenery.',
-          },
-          {
-            title: 'Gamkolli – 200 GEL',
-            description: 'Full‑day Gamkolli adventure with varied terrain and the biggest views of the area.',
-          },
-        ]}
-        image={{
-          src: toursImage,
-          alt: 'Horse riding and tower village in Ushguli, Svaneti, Georgia.',
-          loading: 'lazy',
-        }}
-      />
+      <div class="text-center max-w-3xl mx-auto mb-8 md:mb-10">
+        <p class="text-base text-primary font-bold tracking-wide mb-2">Popular routes</p>
+        <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter font-heading text-heading">
+          Same-day rides from Ushguli
+        </h2>
+        <p class="mt-4 text-lg text-page">
+          Choose a route below, or message us to plan your own. Prices are per rider, in Georgian lari.
+        </p>
+      </div>
+
+      <div class="relative m-auto max-w-5xl mb-10">
+        <Image
+          class="mx-auto rounded-md w-full"
+          widths={[400, 768, 1024, 2040]}
+          sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+          loading="lazy"
+          width={1024}
+          height={576}
+          src={toursImage}
+          alt="The stone Svan towers of Ushguli on a sunny day."
+        />
+      </div>
+
+      <ul class="grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          routes.map((route) => (
+            <li class="flex flex-col rounded-md border border-black/10 bg-white/50 p-5 md:p-6">
+              <div class="flex items-baseline justify-between gap-4 mb-2">
+                <h3 class="text-xl font-semibold text-heading">{route.name}</h3>
+                <p class="shrink-0 font-semibold text-primary whitespace-nowrap">{route.price} GEL</p>
+              </div>
+              <p class="text-page leading-relaxed">{route.summary}</p>
+              <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
+                <dt class="text-muted">Trip</dt>
+                <dd>Same day</dd>
+                {(route.duration || showPlaceholders) && (
+                  <>
+                    <dt class="text-muted">Time</dt>
+                    <dd>{route.duration ?? <span class="tbc">To confirm: hours in the saddle</span>}</dd>
+                  </>
+                )}
+                {(route.difficulty || showPlaceholders) && (
+                  <>
+                    <dt class="text-muted">Level</dt>
+                    <dd>{route.difficulty ?? <span class="tbc">To confirm: easy, moderate or hard</span>}</dd>
+                  </>
+                )}
+              </dl>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </section>
 
@@ -113,12 +242,12 @@ const metadata = {
           sizes="(max-width: 767px) 480px, (max-width: 1023px) 768px, (max-width: 1439px) 1024px, 1440px"
           loading="lazy"
           src={aboutImage}
-          alt="Riders on horseback following a mountain valley trail near Ushguli, Svaneti, Georgia."
+          alt="Three riders on a gravel valley track near Ushguli, heading towards the mountains."
         />
       </div>
 
       <div class="basis-1/2 text-page">
-        <p class="text-xs md:text-sm font-semibold tracking-wide uppercase text-primary mb-2">About us</p>
+        <p class="text-base font-bold tracking-wide text-primary mb-2">About us</p>
         <h2
           class="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-[color:var(--aw-color-text-heading)] mb-4"
         >
@@ -136,52 +265,73 @@ const metadata = {
     </div>
   </section>
 
-  <!-- Gallery + CTA -->
+  <!-- Good to know -->
+  <section id="good-to-know" class="py-12 md:py-16 bg-page">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter font-heading text-heading mb-6 md:mb-8">
+        Good to know before you ride
+      </h2>
+      <dl class="grid gap-x-10 gap-y-6 md:grid-cols-2">
+        {
+          goodToKnow
+            .filter((fact) => fact.value || showPlaceholders)
+            .map((fact) => (
+              <div>
+                <dt class="font-semibold text-heading mb-1">{fact.label}</dt>
+                <dd class="text-page leading-relaxed">
+                  {fact.value ?? <span class="tbc">To confirm: {fact.hint}</span>}
+                </dd>
+              </div>
+            ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <!-- Gallery -->
   <section class="py-12 md:py-16 bg-page">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-page">
+      <h2 class="sr-only">Photos from Ushguli</h2>
       <GallerySlider
         images={[
           gallery1,
-          gallery2,
+          gallery13,
           gallery3,
-          gallery4,
-          gallery5,
+          gallery2,
+          gallery17,
           gallery6,
-          gallery7,
           gallery9,
           gallery10,
-          gallery11,
-          gallery12,
-          gallery13,
-          gallery14,
-          gallery15,
-          gallery16,
-          gallery17,
-          gallery18,
           gallery19,
-          gallery20,
+          gallery5,
+          gallery16,
+          gallery11,
+          gallery18,
+          gallery12,
+          gallery15,
+          gallery14,
+          gallery4,
+          gallery7,
         ]}
         altTexts={[
-          'Riders on the Ushguli valley track',
-          'Village and towers in Ushguli',
-          'Horse saddled in front of Shkhara',
-          'Crossing a river near Ushguli',
-          'Evening light over Svaneti peaks',
-          'Riders climbing towards the pass',
-          'Trail above the Enguri river valley',
-          'Morning ride leaving Ushguli village',
-          'View of towers and mountains from the trail',
-          'Horses resting near a mountain stream',
-          'Rider crossing a wooden bridge near Ushguli',
-          'Group ride through alpine meadow above the village',
-          'Trail leading towards Shkhara Glacier viewpoint',
-          'Horses tied near ancient Svan towers',
-          'Riders descending a ridge at sunset',
-          'Track overlooking the Enguri river gorge',
-          'Close‑up of horse and traditional Svan saddle',
-          'Riders passing a small chapel above Ushguli',
-          'Wide view of the valley and snow‑capped peaks',
-          'Evening ride returning to Ushguli village',
+          'A guide with a bay and a grey horse beside a small lake below Shkhara glacier.',
+          'Saddled horses tied at a fence, with Shkhara behind.',
+          'Ushguli’s towers and houses below the snow-covered Shkhara massif.',
+          'Close-up of a traditional leather saddle on a bay horse.',
+          'A guide leading a saddled black horse on a high slope above the valley.',
+          'The Svan towers of Ushguli with snowy peaks at the head of the valley.',
+          'A saddled dark horse in an autumn meadow facing Shkhara.',
+          'Shkhara glacier and the rocky moraine below it.',
+          'Two saddled horses resting by the bushes beside the track.',
+          'Ushguli’s villages and towers seen from the hillside above.',
+          'A rider and horse on a high meadow above a winding river valley.',
+          'Horses grazing by a river below a snowy ridge.',
+          'Looking up at Shkhara between a grey horse’s ears.',
+          'A stone Svan tower under fresh snow.',
+          'Close-up of a grey horse grazing.',
+          'Houses in Ushguli below snow-dusted mountains.',
+          'A small wooden kiosk and stone houses in Ushguli.',
+          'A curious cow among the thistles in a meadow near Ushguli.',
         ]}
       />
     </div>
@@ -195,9 +345,42 @@ const metadata = {
         {
           variant: 'primary',
           text: 'Book your ride on WhatsApp',
-          href: 'https://wa.me/995599038579?text=Hi%2C%20I%27m%20interested%20in%20horse%20riding%20in%20Ushguli',
+          href: whatsappHref,
         },
       ]}
     />
   </div>
+
+  <!-- Footer -->
+  <footer class="border-t border-black/10 mt-12">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-sm text-muted flex flex-col gap-2 md:flex-row md:items-center md:justify-between"
+    >
+      <p>
+        <span class="font-semibold text-heading">Horse Riding Ushguli</span> · Ushguli, Svaneti, Georgia
+      </p>
+      <p class="flex flex-wrap gap-x-4 gap-y-1">
+        <a class="underline underline-offset-2 hover:text-primary" href={whatsappHref}>WhatsApp {phoneDisplay}</a>
+        {
+          googleMapsHref ? (
+            <a class="underline underline-offset-2 hover:text-primary" href={googleMapsHref}>
+              Find us on Google Maps
+            </a>
+          ) : (
+            showPlaceholders && <span class="tbc">To confirm: Google Maps link</span>
+          )
+        }
+        <span>© {new Date().getFullYear()}</span>
+      </p>
+    </div>
+  </footer>
 </Layout>
+
+<style>
+  .tbc {
+    background: #fff3c4;
+    color: #6b4e00;
+    padding: 0 0.3em;
+    border-radius: 3px;
+  }
+</style>
