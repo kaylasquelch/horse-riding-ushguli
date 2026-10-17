@@ -26,7 +26,6 @@ import gallery17 from '~/assets/images/gallery17.jpg';
 import gallery18 from '~/assets/images/gallery18.jpg';
 import gallery19 from '~/assets/images/gallery19.jpg';
 
-import Hero2 from '~/components/widgets/Hero2.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import GallerySlider from '~/components/widgets/GallerySlider.astro';
 
@@ -150,28 +149,52 @@ const structuredData = {
 <Layout metadata={metadata}>
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
-  <!-- Hero -->
-  <Hero2
-    tagline="Horse Riding Ushguli"
-    title="Explore Ushguli and Svaneti on horseback."
-    subtitle="Experience the breathtaking beauty of Svaneti as you explore its ancient villages, alpine meadows, and legendary mountain trails on horseback. Saddle up for an unforgettable adventure and discover why this extraordinary region of Georgia is best seen from the back of a horse."
-    actions={[
-      {
-        variant: 'primary',
-        text: 'Book your ride',
-        href: whatsappHref,
-        icon: 'tabler:square-rounded-arrow-right',
-      },
-      { text: 'See the routes', href: '#tours' },
-    ]}
-    image={{
-      src: heroImage,
-      alt: 'A saddled bay horse grazing below the snow-covered Shkhara massif near Ushguli.',
-      width: heroImage.width,
-      height: heroImage.height,
-      loading: 'eager',
-    }}
-  />
+  <!-- Hero: video on wide screens and a vertical clip on phones; photo poster underneath -->
+  <section class="hero relative isolate overflow-hidden bg-[#2b2622] text-white">
+    <picture>
+      <source media="(orientation: portrait)" srcset="/video/hero-tall.jpg" />
+      <img
+        src="/video/hero-wide.jpg"
+        alt=""
+        class="absolute inset-0 -z-20 h-full w-full object-cover hero-media"
+        fetchpriority="high"
+      />
+    </picture>
+    <video
+      class="absolute inset-0 -z-10 h-full w-full object-cover hero-media"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+      aria-hidden="true"
+      data-hero-video
+    >
+      <source media="(orientation: portrait)" src="/video/hero-tall.mp4" type="video/mp4" />
+      <source src="/video/hero-wide.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-shade absolute inset-0 -z-10"></div>
+
+    <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
+      <div class="max-w-xl">
+        <p class="tagline text-[#f6e7cf] mb-3">Horse Riding Ushguli</p>
+        <h1 class="text-4xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading text-white">
+          Explore Ushguli and Svaneti on horseback.
+        </h1>
+        <p class="mt-4 text-lg md:text-xl text-white/90">
+          Ride past ancient villages and alpine meadows towards Shkhara, Georgia’s highest peak, with local guides and
+          mountain horses.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a class="btn btn-primary" href={whatsappHref}>Book your ride on WhatsApp</a>
+          <a class="btn border-white/80 text-white hover:bg-white/10 hover:text-white" href="#tours">See the routes</a>
+        </div>
+      </div>
+    </div>
+    <p class="sr-only">
+      Video: saddled horses grazing in an autumn meadow below the snow-covered Shkhara massif near Ushguli.
+    </p>
+  </section>
 
   <!-- Tours -->
   <section id="tours" class="pt-8 pb-16 md:pt-10 md:pb-20 bg-page scroll-mt-4">
@@ -260,6 +283,63 @@ const structuredData = {
           Whether it is your first time on horseback or you are an experienced rider, we’ll match you with the right
           horse, route, and pace so you can relax, feel safe, and fully enjoy the mountains.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Collage of short clips and photos -->
+  <section class="py-12 md:py-16 bg-page">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2
+        class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter font-heading text-heading mb-6 md:mb-8"
+      >
+        Around Ushguli
+      </h2>
+      <div class="collage grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+        <figure class="col-span-2 md:row-span-2 aspect-video md:aspect-auto">
+          <video muted loop playsinline preload="none" poster="/video/guide-black-horse.jpg" data-loop>
+            <source src="/video/guide-black-horse.mp4" type="video/mp4" />
+          </video>
+          <figcaption class="sr-only">A guide with a saddled black horse on a slope above the valley.</figcaption>
+        </figure>
+        <figure class="row-span-2">
+          <Image
+            src={heroImage}
+            widths={[400, 532]}
+            sizes="(max-width: 767px) 50vw, 280px"
+            alt="A saddled bay horse grazing below the snow-covered Shkhara massif."
+            class="h-full w-full"
+            style=";object-fit:cover;object-position:50% 70%;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
+          />
+        </figure>
+        <figure class="aspect-video">
+          <video muted loop playsinline preload="none" poster="/video/towers-road.jpg" data-loop>
+            <source src="/video/towers-road.mp4" type="video/mp4" />
+          </video>
+          <figcaption class="sr-only">A dog trotting along the village road between Svan towers.</figcaption>
+        </figure>
+        <figure class="aspect-video">
+          <video muted loop playsinline preload="none" poster="/video/stream.jpg" data-loop>
+            <source src="/video/stream.mp4" type="video/mp4" />
+          </video>
+          <figcaption class="sr-only">A mountain stream tumbling over rocks.</figcaption>
+        </figure>
+        <figure class="col-span-2 aspect-video">
+          <video muted loop playsinline preload="none" poster="/video/snow-valley.jpg" data-loop>
+            <source src="/video/snow-valley.mp4" type="video/mp4" />
+          </video>
+          <figcaption class="sr-only">Fresh snow on the peaks at the head of the valley.</figcaption>
+        </figure>
+        <figure class="col-span-2 aspect-video">
+          <Image
+            src={gallery1}
+            widths={[480, 768, 1024]}
+            sizes="(max-width: 767px) 100vw, 560px"
+            alt="A guide with a bay and a grey horse beside a small lake below Shkhara glacier."
+            class="h-full w-full"
+            style=";object-fit:cover;object-position:50% 100%;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
+          />
+        </figure>
       </div>
     </div>
   </section>
@@ -377,7 +457,87 @@ const structuredData = {
   </footer>
 </Layout>
 
+<script is:inline>
+  (() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hero = document.querySelector('[data-hero-video]');
+    if (hero && reduce) {
+      hero.removeAttribute('autoplay');
+      hero.pause();
+    }
+    const loops = document.querySelectorAll('video[data-loop]');
+    if (reduce || !('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          const video = entry.target;
+          if (entry.isIntersecting) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    loops.forEach((video) => io.observe(video));
+  })();
+</script>
+
 <style>
+  .hero {
+    min-height: 100svh;
+    max-height: 1000px;
+    display: flex;
+  }
+  .hero-content {
+    width: 100%;
+    padding-top: 4.5rem;
+    padding-bottom: 3rem;
+    justify-content: flex-start;
+  }
+  .hero-shade {
+    background: linear-gradient(
+      to bottom,
+      rgba(20, 16, 12, 0.72) 0%,
+      rgba(20, 16, 12, 0.35) 45%,
+      rgba(20, 16, 12, 0) 70%
+    );
+  }
+  .hero-media {
+    object-position: 50% 60%;
+  }
+  @media (orientation: landscape) {
+    /* Exactly 16:9 so the clip is never cropped at the sides (the horses sit near the right edge) */
+    .hero {
+      min-height: 0;
+      max-height: none;
+      aspect-ratio: 16 / 9;
+    }
+    .hero-content {
+      justify-content: flex-end;
+      padding-bottom: 5rem;
+    }
+    .hero-shade {
+      background:
+        linear-gradient(to right, rgba(20, 16, 12, 0.7) 0%, rgba(20, 16, 12, 0.35) 40%, rgba(20, 16, 12, 0) 65%),
+        linear-gradient(to top, rgba(20, 16, 12, 0.45) 0%, rgba(20, 16, 12, 0) 40%);
+    }
+    .hero-media {
+      object-position: 50% 50%;
+    }
+  }
+  .collage figure {
+    overflow: hidden;
+    border-radius: 6px;
+    background: #e9e2d6;
+  }
+  .collage video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
   .tbc {
     background: #fff3c4;
     color: #6b4e00;
