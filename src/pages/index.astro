@@ -361,9 +361,6 @@ const structuredData = {
             }
           </ol>
         </div>
-        <aside class="routes-aside" aria-label="Book a ride">
-          <a class="pill pill-accent" href={whatsappHref}>Ask about a ride</a>
-        </aside>
       </div>
     </section>
 
@@ -547,6 +544,18 @@ const structuredData = {
   </footer>
 
   <a class="pill pill-accent sticky-book" href={whatsappHref} data-sticky-book>Book on WhatsApp</a>
+
+  <div class="scroll-bar" data-scroll-bar aria-hidden="true">
+    <div class="wrap flex items-center justify-between gap-6">
+      <a href="/" class="wordmark" tabindex="-1">Horse Riding Ushguli</a>
+      <nav class="flex items-center gap-6 text-[15px]">
+        <a class="scroll-link" href="#place" tabindex="-1">Ushguli</a>
+        <a class="scroll-link" href="#tours" tabindex="-1">Routes</a>
+        <a class="scroll-link" href="#good-to-know" tabindex="-1">Good to know</a>
+        <a class="pill pill-accent pill-sm" href={whatsappHref} tabindex="-1">Book on WhatsApp</a>
+      </nav>
+    </div>
+  </div>
 </Layout>
 
 <script is:inline>
@@ -563,9 +572,18 @@ const structuredData = {
     const sticky = document.querySelector('[data-sticky-book]');
     const heroSection = document.querySelector('[data-hero]');
     if (sticky && heroSection) {
-      new IntersectionObserver(([entry]) => sticky.classList.toggle('is-visible', !entry.isIntersecting), {
-        threshold: 0.1,
-      }).observe(heroSection);
+      const bar = document.querySelector('[data-scroll-bar]');
+      new IntersectionObserver(
+        ([entry]) => {
+          sticky.classList.toggle('is-visible', !entry.isIntersecting);
+          bar?.classList.toggle('is-visible', !entry.isIntersecting);
+          bar?.setAttribute('aria-hidden', String(entry.isIntersecting));
+          bar
+            ?.querySelectorAll('a')
+            .forEach((link) => link.setAttribute('tabindex', entry.isIntersecting ? '-1' : '0'));
+        },
+        { threshold: 0.1 }
+      ).observe(heroSection);
     }
 
     if (reduce) return;
@@ -814,34 +832,10 @@ const structuredData = {
     font-size: 15px;
   }
 
-  /* Routes: a centred column; on wide screens the ask button stays in view in the right-hand margin */
+  /* Routes: a centred column */
   .routes-layout > div {
     max-width: 760px;
     margin-inline: auto;
-  }
-  .routes-aside {
-    display: none;
-  }
-  @media (min-width: 1280px) {
-    .routes-layout {
-      display: grid;
-      grid-template-columns: 1fr minmax(0, 760px) 1fr;
-      column-gap: 2rem;
-    }
-    .routes-layout > div {
-      grid-column: 2;
-      max-width: none;
-      margin-inline: 0;
-    }
-    .routes-aside {
-      display: block;
-      grid-column: 3;
-      justify-self: end;
-    }
-    .routes-aside .pill {
-      position: sticky;
-      top: 2rem;
-    }
   }
 
   /* Routes */
@@ -974,6 +968,45 @@ const structuredData = {
   }
   .footer-link:hover {
     text-decoration-color: currentColor;
+  }
+
+  /* Slim bar that slides in at the top once the hero has gone (wide screens only) */
+  .scroll-bar {
+    display: none;
+  }
+  @media (min-width: 1280px) {
+    .scroll-bar {
+      display: block;
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 40;
+      padding-block: 12px;
+      background: rgb(245 240 231 / 94%);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgb(33 30 26 / 10%);
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+    }
+  }
+  @media (min-width: 1280px) {
+    #place,
+    #tours,
+    #good-to-know {
+      scroll-margin-top: 64px;
+    }
+  }
+  :global(.scroll-bar.is-visible) {
+    transform: none;
+  }
+  .scroll-link {
+    color: var(--aw-color-text-muted);
+  }
+  .scroll-link:hover {
+    color: var(--aw-color-text-heading);
+  }
+  .pill-sm {
+    padding: 0.6rem 1.2rem;
+    font-size: 14px;
   }
 
   /* Phone booking button */
