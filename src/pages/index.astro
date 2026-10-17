@@ -30,8 +30,86 @@ import gallery17 from '~/assets/images/gallery17.jpg';
 import gallery18 from '~/assets/images/gallery18.jpg';
 import gallery19 from '~/assets/images/gallery19.jpg';
 
-import CallToAction from '~/components/widgets/CallToAction.astro';
 import GallerySlider from '~/components/widgets/GallerySlider.astro';
+
+type Tile =
+  | { kind: 'video'; name: string; alt: string; cls: string }
+  | { kind: 'photo'; src: ImageMetadata; alt: string; cls: string; position?: string; big?: boolean };
+
+// Photos and clips alternate so no two videos sit side by side or one above the other (on wide screens).
+const collage: Tile[] = [
+  {
+    kind: 'video',
+    name: 'guide-black-horse',
+    alt: 'A guide with a saddled black horse on a slope above the valley.',
+    cls: 'col-span-2 md:row-span-2 aspect-video md:aspect-auto',
+  },
+  {
+    kind: 'photo',
+    src: heroImage,
+    alt: 'A saddled bay horse grazing below the snow-covered Shkhara massif.',
+    cls: 'row-span-2',
+    position: '50% 70%',
+  },
+  {
+    kind: 'photo',
+    src: churchBells,
+    alt: 'Three church bells hanging on a wooden frame in Ushguli, with snowy peaks behind.',
+    cls: 'aspect-video',
+  },
+  {
+    kind: 'video',
+    name: 'towers-road',
+    alt: 'A dog trotting along the village road between Svan towers.',
+    cls: 'aspect-video',
+  },
+  {
+    kind: 'photo',
+    src: ushguliTowersSun,
+    alt: 'The Svan towers of Ushguli on a sunny afternoon.',
+    cls: 'aspect-video',
+  },
+  {
+    kind: 'photo',
+    src: shkharaAlpenglow,
+    alt: 'Shkhara glowing pink at sunset above the clouds.',
+    cls: 'aspect-video',
+  },
+  {
+    kind: 'video',
+    name: 'cows-road',
+    alt: 'Cows wandering along the road in Ushguli below Shkhara.',
+    cls: 'aspect-video',
+  },
+  { kind: 'photo', src: gallery12, alt: 'A stone Svan tower under fresh snow.', cls: 'aspect-video' },
+  {
+    kind: 'video',
+    name: 'rider-slope',
+    alt: 'A rider leading a saddled horse across a high slope above the valley.',
+    cls: 'col-span-2 aspect-video',
+  },
+  {
+    kind: 'photo',
+    src: goldenHourHorses,
+    alt: 'Two horses grazing on stony ground in the evening light, with snowy peaks at the head of the valley.',
+    cls: 'col-span-2 aspect-video',
+    big: true,
+  },
+  {
+    kind: 'photo',
+    src: gallery1,
+    alt: 'A guide with a bay and a grey horse beside a small lake below Shkhara glacier.',
+    cls: 'col-span-2 aspect-video',
+    position: '50% 100%',
+    big: true,
+  },
+  {
+    kind: 'video',
+    name: 'snow-valley',
+    alt: 'Fresh snow on the peaks at the head of the valley.',
+    cls: 'col-span-2 aspect-video',
+  },
+];
 
 const metadata = {
   title: 'Horse Riding in Ushguli, Svaneti, Georgia | Day Rides',
@@ -153,8 +231,10 @@ const structuredData = {
 <Layout metadata={metadata}>
   <script is:inline slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
+  <a href="#main" class="skip">Skip to content</a>
+
   <!-- Hero: video on wide screens and a vertical clip on phones; photo poster underneath -->
-  <section class="hero relative isolate overflow-hidden bg-[#2b2622] text-white">
+  <section class="hero relative isolate overflow-hidden bg-[#221f1b] text-white" data-hero>
     <picture>
       <source media="(orientation: portrait)" srcset="/video/hero-tall.jpg" />
       <img
@@ -179,19 +259,29 @@ const structuredData = {
     </video>
     <div class="hero-shade absolute inset-0 -z-10"></div>
 
-    <div class="hero-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col">
-      <div class="max-w-xl">
-        <p class="tagline text-[#f6e7cf] mb-3">Horse Riding Ushguli</p>
-        <h1 class="text-4xl md:text-6xl font-bold leading-tighter tracking-tighter font-heading text-white">
-          Explore Ushguli and Svaneti on horseback.
-        </h1>
-        <p class="mt-4 text-lg md:text-xl text-white/90">
+    <header class="site-header">
+      <div class="wrap flex items-center justify-between gap-6">
+        <a href="/" class="wordmark">Horse Riding Ushguli</a>
+        <nav aria-label="Main" class="flex items-center gap-6 text-[15px]">
+          <a class="nav-link hidden md:inline" href="#place">Ushguli</a>
+          <a class="nav-link hidden md:inline" href="#tours">Routes</a>
+          <a class="nav-link hidden md:inline" href="#good-to-know">Good to know</a>
+          <a class="pill pill-light" href={whatsappHref}>Book</a>
+        </nav>
+      </div>
+    </header>
+
+    <div class="hero-content wrap flex flex-col">
+      <div class="max-w-2xl">
+        <p class="eyebrow text-white/80">Ushguli · Svaneti · Georgia</p>
+        <h1 class="display mt-4 text-white">Explore Ushguli and Svaneti on horseback.</h1>
+        <p class="mt-5 text-lg md:text-xl text-white/90 max-w-xl leading-relaxed">
           Ride past ancient villages and alpine meadows towards Shkhara, Georgia’s highest peak, with local guides and
           mountain horses.
         </p>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a class="btn btn-primary" href={whatsappHref}>Book your ride on WhatsApp</a>
-          <a class="btn border-white/80 text-white hover:bg-white/10 hover:text-white" href="#tours">See the routes</a>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a class="pill pill-accent" href={whatsappHref}>Book on WhatsApp</a>
+          <a class="pill pill-ghost" href="#tours">See the routes</a>
         </div>
       </div>
     </div>
@@ -200,317 +290,262 @@ const structuredData = {
     </p>
   </section>
 
-  <!-- Tours -->
-  <section id="tours" class="pt-8 pb-16 md:pt-10 md:pb-20 bg-page scroll-mt-4">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center max-w-3xl mx-auto mb-8 md:mb-10">
-        <p class="text-base text-primary font-bold tracking-wide mb-2">Popular routes</p>
-        <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter font-heading text-heading">
-          Same-day rides from Ushguli
-        </h2>
-        <p class="mt-4 text-lg text-page">
-          Choose a route below, or message us to plan your own. Prices are per rider, in Georgian lari.
-        </p>
+  <main id="main">
+    <!-- The place -->
+    <section id="place" class="section">
+      <div class="wrap grid gap-8 md:grid-cols-12">
+        <p class="eyebrow text-accent md:col-span-3 md:pt-3">The place</p>
+        <div class="md:col-span-9">
+          <p class="statement">
+            Ushguli is a cluster of four villages at the head of the Enguri valley in Upper Svaneti, beneath Shkhara,
+            Georgia’s highest peak. Its medieval stone towers are part of a UNESCO World Heritage Site, and the trails
+            around it lead to glaciers, high lakes and mountain passes.
+          </p>
+          <ul class="facts mt-10">
+            <li><span class="fact-value">UNESCO</span><span class="fact-label">World Heritage, Upper Svaneti</span></li>
+            <li><span class="fact-value">Shkhara</span><span class="fact-label">Georgia’s highest peak</span></li>
+            <li><span class="fact-value">Six</span><span class="fact-label">same-day rides from the village</span></li>
+          </ul>
+        </div>
       </div>
+    </section>
 
-      <div class="relative m-auto max-w-5xl mb-10">
-        <Image
-          class="mx-auto rounded-md w-full"
-          widths={[400, 768, 1024, 2040]}
-          sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
-          loading="lazy"
-          width={1024}
-          height={576}
-          src={toursImage}
-          alt="The stone Svan towers of Ushguli on a sunny day."
-        />
-      </div>
-
-      <ul class="grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          routes.map((route) => (
-            <li class="flex flex-col rounded-md border border-black/10 bg-white/50 p-5 md:p-6">
-              <div class="flex items-baseline justify-between gap-4 mb-2">
-                <h3 class="text-xl font-semibold text-heading">{route.name}</h3>
-                <p class="shrink-0 font-semibold text-primary whitespace-nowrap">{route.price} GEL</p>
-              </div>
-              <p class="text-page leading-relaxed">{route.summary}</p>
-              <dl class="mt-4 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
-                <dt class="text-muted">Trip</dt>
-                <dd>Same day</dd>
-                {(route.duration || showPlaceholders) && (
-                  <>
-                    <dt class="text-muted">Time</dt>
-                    <dd>{route.duration ?? <span class="tbc">To confirm: hours in the saddle</span>}</dd>
-                  </>
-                )}
-                {(route.difficulty || showPlaceholders) && (
-                  <>
-                    <dt class="text-muted">Level</dt>
-                    <dd>{route.difficulty ?? <span class="tbc">To confirm: easy, moderate or hard</span>}</dd>
-                  </>
-                )}
-              </dl>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <!-- About with image left -->
-  <section class="py-12 md:py-16 bg-page">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 lg:flex lg:items-center lg:gap-10">
-      <div class="basis-1/2 mb-8 lg:mb-0">
-        <Image
-          class="mx-auto rounded-md w-full"
-          widths={[480, 768, 1024, 1440]}
-          sizes="(max-width: 767px) 480px, (max-width: 1023px) 768px, (max-width: 1439px) 1024px, 1440px"
-          loading="lazy"
-          src={aboutImage}
-          alt="Three riders on a gravel valley track near Ushguli, heading towards the mountains."
-        />
-      </div>
-
-      <div class="basis-1/2 text-page">
-        <p class="text-base font-bold tracking-wide text-primary mb-2">About us</p>
-        <h2
-          class="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-[color:var(--aw-color-text-heading)] mb-4"
-        >
-          Local guides, mountain horses, real Svaneti experiences
-        </h2>
-        <p class="leading-relaxed mb-3">
-          We are a small, local team based in Ushguli, working with experienced mountain horses and guides who know
-          every trail, river crossing, and weather pattern in the valley.
-        </p>
-        <p class="leading-relaxed">
-          Whether it is your first time on horseback or you are an experienced rider, we’ll match you with the right
-          horse, route, and pace so you can relax, feel safe, and fully enjoy the mountains.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Collage of short clips and photos -->
-  <section class="py-12 md:py-16 bg-page">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2
-        class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter font-heading text-heading mb-6 md:mb-8"
-      >
-        Around Ushguli
-      </h2>
-      <div class="collage grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
-        <figure class="col-span-2 md:row-span-2 aspect-video md:aspect-auto">
-          <video muted loop playsinline preload="none" poster="/video/guide-black-horse.jpg" data-loop>
-            <source src="/video/guide-black-horse.mp4" type="video/mp4" />
-          </video>
-          <figcaption class="sr-only">A guide with a saddled black horse on a slope above the valley.</figcaption>
-        </figure>
-        <figure class="row-span-2">
-          <Image
-            src={heroImage}
-            widths={[400, 532]}
-            sizes="(max-width: 767px) 50vw, 280px"
-            alt="A saddled bay horse grazing below the snow-covered Shkhara massif."
-            class="h-full w-full"
-            style=";object-fit:cover;object-position:50% 70%;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
-          />
-        </figure>
-        <figure class="aspect-video">
-          <video muted loop playsinline preload="none" poster="/video/towers-road.jpg" data-loop>
-            <source src="/video/towers-road.mp4" type="video/mp4" />
-          </video>
-          <figcaption class="sr-only">A dog trotting along the village road between Svan towers.</figcaption>
-        </figure>
-        <figure class="aspect-video">
-          <video muted loop playsinline preload="none" poster="/video/stream.jpg" data-loop>
-            <source src="/video/stream.mp4" type="video/mp4" />
-          </video>
-          <figcaption class="sr-only">A mountain stream tumbling over rocks.</figcaption>
-        </figure>
-        <figure class="col-span-2 aspect-video">
-          <video muted loop playsinline preload="none" poster="/video/snow-valley.jpg" data-loop>
-            <source src="/video/snow-valley.mp4" type="video/mp4" />
-          </video>
-          <figcaption class="sr-only">Fresh snow on the peaks at the head of the valley.</figcaption>
-        </figure>
-        <figure class="col-span-2 aspect-video">
-          <Image
-            src={gallery1}
-            widths={[480, 768, 1024]}
-            sizes="(max-width: 767px) 100vw, 560px"
-            alt="A guide with a bay and a grey horse beside a small lake below Shkhara glacier."
-            class="h-full w-full"
-            style=";object-fit:cover;object-position:50% 100%;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
-          />
-        </figure>
-        <figure class="aspect-video">
-          <Image
-            src={churchBells}
-            widths={[400, 640, 800]}
-            sizes="(max-width: 767px) 50vw, 280px"
-            alt="Three church bells hanging on a wooden frame in Ushguli, with snowy peaks behind."
-            class="h-full w-full"
-            style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
-          />
-        </figure>
-        <figure class="aspect-video">
-          <video muted loop playsinline preload="none" poster="/video/cows-road.jpg" data-loop>
-            <source src="/video/cows-road.mp4" type="video/mp4" />
-          </video>
-          <figcaption class="sr-only">Cows wandering along the road in Ushguli below Shkhara.</figcaption>
-        </figure>
-        <figure class="aspect-video">
-          <Image
-            src={ushguliTowersSun}
-            widths={[400, 640, 800]}
-            sizes="(max-width: 767px) 50vw, 280px"
-            alt="The Svan towers of Ushguli on a sunny afternoon."
-            class="h-full w-full"
-            style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
-          />
-        </figure>
-        <figure class="aspect-video">
-          <Image
-            src={shkharaAlpenglow}
-            widths={[400, 640, 800]}
-            sizes="(max-width: 767px) 50vw, 280px"
-            alt="Shkhara glowing pink at sunset above the clouds."
-            class="h-full w-full"
-            style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
-          />
-        </figure>
-        <figure class="col-span-2 aspect-video">
-          <video muted loop playsinline preload="none" poster="/video/rider-slope.jpg" data-loop>
-            <source src="/video/rider-slope.mp4" type="video/mp4" />
-          </video>
-          <figcaption class="sr-only">A rider leading a saddled horse across a high slope above the valley.</figcaption>
-        </figure>
-        <figure class="col-span-2 aspect-video">
-          <Image
-            src={goldenHourHorses}
-            widths={[480, 768, 1024, 1600]}
-            sizes="(max-width: 767px) 100vw, 560px"
-            alt="Two horses grazing on stony ground in the evening light, with snowy peaks at the head of the valley."
-            class="h-full w-full"
-            style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
-          />
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- Good to know -->
-  <section id="good-to-know" class="py-12 md:py-16 bg-page">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2
-        class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter font-heading text-heading mb-6 md:mb-8"
-      >
-        Good to know before you ride
-      </h2>
-      <dl class="grid gap-x-10 gap-y-6 md:grid-cols-2">
-        {
-          goodToKnow
-            .filter((fact) => fact.value || showPlaceholders)
-            .map((fact) => (
-              <div>
-                <dt class="font-semibold text-heading mb-1">{fact.label}</dt>
-                <dd class="text-page leading-relaxed">
-                  {fact.value ?? <span class="tbc">To confirm: {fact.hint}</span>}
-                </dd>
-              </div>
-            ))
-        }
-      </dl>
-    </div>
-  </section>
-
-  <!-- Gallery -->
-  <section class="py-12 md:py-16 bg-page">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-page">
-      <h2 class="sr-only">Photos from Ushguli</h2>
-      <GallerySlider
-        images={[
-          gallery1,
-          gallery13,
-          gallery3,
-          gallery2,
-          gallery17,
-          gallery6,
-          gallery9,
-          gallery10,
-          gallery19,
-          gallery5,
-          gallery16,
-          gallery11,
-          gallery18,
-          gallery12,
-          gallery15,
-          gallery14,
-          gallery4,
-          gallery7,
-        ]}
-        altTexts={[
-          'A guide with a bay and a grey horse beside a small lake below Shkhara glacier.',
-          'Saddled horses tied at a fence, with Shkhara behind.',
-          'Ushguli’s towers and houses below the snow-covered Shkhara massif.',
-          'Close-up of a traditional leather saddle on a bay horse.',
-          'A guide leading a saddled black horse on a high slope above the valley.',
-          'The Svan towers of Ushguli with snowy peaks at the head of the valley.',
-          'A saddled dark horse in an autumn meadow facing Shkhara.',
-          'Shkhara glacier and the rocky moraine below it.',
-          'Two saddled horses resting by the bushes beside the track.',
-          'Ushguli’s villages and towers seen from the hillside above.',
-          'A rider and horse on a high meadow above a winding river valley.',
-          'Horses grazing by a river below a snowy ridge.',
-          'Looking up at Shkhara between a grey horse’s ears.',
-          'A stone Svan tower under fresh snow.',
-          'Close-up of a grey horse grazing.',
-          'Houses in Ushguli below snow-dusted mountains.',
-          'A small wooden kiosk and stone houses in Ushguli.',
-          'A curious cow among the thistles in a meadow near Ushguli.',
-        ]}
+    <figure class="band">
+      <Image
+        src={toursImage}
+        widths={[768, 1280, 1920, 2400]}
+        sizes="100vw"
+        loading="lazy"
+        alt="The stone Svan towers of Ushguli on a sunny day."
+        class="h-full w-full"
+        style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
       />
-    </div>
-  </section>
+    </figure>
 
-  <div class="mt-8">
-    <CallToAction
-      title="Ready to ride in Ushguli?"
-      subtitle="Send us a WhatsApp message with your preferred dates, group size, and riding experience. We’ll reply with suggested routes and prices."
-      actions={[
-        {
-          variant: 'primary',
-          text: 'Book your ride on WhatsApp',
-          href: whatsappHref,
-        },
-      ]}
-    />
-  </div>
+    <!-- Routes -->
+    <section id="tours" class="section">
+      <div class="wrap">
+        <div class="grid gap-6 md:grid-cols-12 mb-10 md:mb-14">
+          <p class="eyebrow text-accent md:col-span-3 md:pt-4">Day rides</p>
+          <div class="md:col-span-9">
+            <h2 class="h2">Six routes from the village</h2>
+            <p class="lede mt-4">
+              All rides are same-day trips. Prices are per rider, in Georgian lari. Want something longer or different?
+              Message us and we’ll plan your own route.
+            </p>
+          </div>
+        </div>
 
-  <!-- Footer -->
-  <footer class="border-t border-black/10 mt-12">
-    <div
-      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-sm text-muted flex flex-col gap-2 md:flex-row md:items-center md:justify-between"
-    >
-      <p>
-        <span class="font-semibold text-heading">Horse Riding Ushguli</span> · Ushguli, Svaneti, Georgia
-      </p>
-      <p class="flex flex-wrap gap-x-4 gap-y-1">
-        <a class="underline underline-offset-2 hover:text-primary" href={whatsappHref}>WhatsApp {phoneDisplay}</a>
+        <ol class="routes">
+          {
+            routes.map((route, index) => (
+              <li class="route">
+                <span class="route-number">{String(index + 1).padStart(2, '0')}</span>
+                <h3 class="route-name">{route.name}</h3>
+                <p class="route-price">
+                  {route.price} <span>GEL</span>
+                </p>
+                <div class="route-body">
+                  <p class="route-summary">{route.summary}</p>
+                  {(route.duration || route.difficulty || showPlaceholders) && (
+                    <p class="route-meta">
+                      <span>{route.duration ?? <span class="tbc">To confirm: hours in the saddle</span>}</span>
+                      <span>{route.difficulty ?? <span class="tbc">To confirm: easy, moderate or hard</span>}</span>
+                    </p>
+                  )}
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <p class="mt-10">
+          <a class="pill pill-accent" href={whatsappHref}>Ask about a ride</a>
+        </p>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="section pt-0">
+      <div class="wrap grid gap-10 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-6">
+          <Image
+            class="w-full rounded-[3px]"
+            widths={[480, 768, 1024, 1440]}
+            sizes="(max-width: 1023px) 100vw, 50vw"
+            loading="lazy"
+            src={aboutImage}
+            alt="Three riders on a gravel valley track near Ushguli, heading towards the mountains."
+          />
+        </div>
+        <div class="lg:col-span-5 lg:col-start-8">
+          <p class="eyebrow text-accent">Who we are</p>
+          <h2 class="h2 mt-4">Local guides, mountain horses, real Svaneti</h2>
+          <p class="mt-6 leading-relaxed text-lg">
+            We are a small, local team based in Ushguli, working with experienced mountain horses and guides who know
+            every trail, river crossing, and weather pattern in the valley.
+          </p>
+          <p class="mt-4 leading-relaxed text-lg">
+            Whether it is your first time on horseback or you are an experienced rider, we’ll match you with the right
+            horse, route, and pace so you can relax, feel safe, and fully enjoy the mountains.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Collage of short clips and photos -->
+    <section class="section section-tint">
+      <div class="wrap">
+        <div class="grid gap-6 md:grid-cols-12 mb-10 md:mb-14">
+          <p class="eyebrow text-accent md:col-span-3 md:pt-4">Around Ushguli</p>
+          <h2 class="h2 md:col-span-9">Towers, glaciers and the horses that know the way</h2>
+        </div>
+        <div class="collage grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+          {
+            collage.map((tile) =>
+              tile.kind === 'video' ? (
+                <figure class={tile.cls}>
+                  <video muted loop playsinline preload="none" poster={`/video/${tile.name}.jpg`} data-loop>
+                    <source src={`/video/${tile.name}.mp4`} type="video/mp4" />
+                  </video>
+                  <figcaption class="sr-only">{tile.alt}</figcaption>
+                </figure>
+              ) : (
+                <figure class={tile.cls}>
+                  <Image
+                    src={tile.src}
+                    widths={tile.big ? [480, 768, 1024, 1600] : [400, 640, 800]}
+                    sizes={tile.big ? '(max-width: 767px) 100vw, 600px' : '(max-width: 767px) 50vw, 300px'}
+                    alt={tile.alt}
+                    class="h-full w-full"
+                    style={`;object-fit:cover;object-position:${tile.position ?? '50% 50%'};max-width:none;max-height:none;aspect-ratio:auto;height:100%`}
+                  />
+                </figure>
+              )
+            )
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Good to know -->
+    <section id="good-to-know" class="section">
+      <div class="wrap grid gap-10 md:grid-cols-12">
+        <div class="md:col-span-4">
+          <p class="eyebrow text-accent">Before you ride</p>
+          <h2 class="h2 mt-4">Good to know</h2>
+        </div>
+        <dl class="md:col-span-8 info">
+          {
+            goodToKnow
+              .filter((fact) => fact.value || showPlaceholders)
+              .map((fact) => (
+                <div class="info-row">
+                  <dt>{fact.label}</dt>
+                  <dd>{fact.value ?? <span class="tbc">To confirm: {fact.hint}</span>}</dd>
+                </div>
+              ))
+          }
+        </dl>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="section pt-0">
+      <div class="wrap max-w-5xl">
+        <p class="eyebrow text-accent mb-6">More photos</p>
+        <h2 class="sr-only">Photos from Ushguli</h2>
+        <GallerySlider
+          images={[
+            gallery13,
+            gallery3,
+            gallery2,
+            gallery17,
+            gallery6,
+            gallery9,
+            gallery10,
+            gallery19,
+            gallery5,
+            gallery16,
+            gallery11,
+            gallery18,
+            gallery15,
+            gallery14,
+            gallery4,
+            gallery7,
+          ]}
+          altTexts={[
+            'Saddled horses tied at a fence, with Shkhara behind.',
+            'Ushguli’s towers and houses below the snow-covered Shkhara massif.',
+            'Close-up of a traditional leather saddle on a bay horse.',
+            'A guide leading a saddled black horse on a high slope above the valley.',
+            'The Svan towers of Ushguli with snowy peaks at the head of the valley.',
+            'A saddled dark horse in an autumn meadow facing Shkhara.',
+            'Shkhara glacier and the rocky moraine below it.',
+            'Two saddled horses resting by the bushes beside the track.',
+            'Ushguli’s villages and towers seen from the hillside above.',
+            'A rider and horse on a high meadow above a winding river valley.',
+            'Horses grazing by a river below a snowy ridge.',
+            'Looking up at Shkhara between a grey horse’s ears.',
+            'Close-up of a grey horse grazing.',
+            'Houses in Ushguli below snow-dusted mountains.',
+            'A small wooden kiosk and stone houses in Ushguli.',
+            'A curious cow among the thistles in a meadow near Ushguli.',
+          ]}
+        />
+      </div>
+    </section>
+
+    <!-- Closing call to action -->
+    <section class="closing relative isolate overflow-hidden text-white">
+      <Image
+        src={gallery3}
+        widths={[768, 1280, 1920]}
+        sizes="100vw"
+        loading="lazy"
+        alt=""
+        class="absolute inset-0 -z-20 h-full w-full"
+        style=";object-fit:cover;max-width:none;max-height:none;aspect-ratio:auto;height:100%"
+      />
+      <div class="absolute inset-0 -z-10 bg-[#221f1b]/60"></div>
+      <div class="wrap text-center py-28 md:py-40">
+        <p class="eyebrow text-white/80">Book your ride</p>
+        <h2 class="display mt-4 text-white">Ready to ride in Ushguli?</h2>
+        <p class="mt-5 text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
+          Send us a WhatsApp message with your preferred dates, group size and riding experience. We’ll reply with
+          suggested routes and prices.
+        </p>
+        <p class="mt-8">
+          <a class="pill pill-accent" href={whatsappHref}>Book on WhatsApp</a>
+        </p>
+        <p class="mt-4 text-white/80">or message {phoneDisplay} on WhatsApp</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap grid gap-8 md:grid-cols-12 py-14">
+      <div class="md:col-span-6">
+        <p class="wordmark text-[#f5f0e7]">Horse Riding Ushguli</p>
+        <p class="mt-3 text-[#f5f0e7]/70">Day rides from Ushguli, Upper Svaneti, Georgia.</p>
+      </div>
+      <div class="md:col-span-6 md:text-right flex flex-col gap-2 md:items-end">
+        <a class="footer-link" href={whatsappHref}>WhatsApp {phoneDisplay}</a>
         {
           googleMapsHref ? (
-            <a class="underline underline-offset-2 hover:text-primary" href={googleMapsHref}>
+            <a class="footer-link" href={googleMapsHref}>
               Find us on Google Maps
             </a>
           ) : (
             showPlaceholders && <span class="tbc">To confirm: Google Maps link</span>
           )
         }
-        <span>© {new Date().getFullYear()}</span>
-      </p>
+        <span class="text-[#f5f0e7]/60 text-sm">© {new Date().getFullYear()} Horse Riding Ushguli</span>
+      </div>
     </div>
   </footer>
+
+  <a class="pill pill-accent sticky-book" href={whatsappHref} data-sticky-book>Book on WhatsApp</a>
 </Layout>
 
 <script is:inline>
@@ -521,8 +556,18 @@ const structuredData = {
       hero.removeAttribute('autoplay');
       hero.pause();
     }
-    const loops = document.querySelectorAll('video[data-loop]');
-    if (reduce || !('IntersectionObserver' in window)) return;
+    if (!('IntersectionObserver' in window)) return;
+
+    // Phone booking button appears once the hero has scrolled away
+    const sticky = document.querySelector('[data-sticky-book]');
+    const heroSection = document.querySelector('[data-hero]');
+    if (sticky && heroSection) {
+      new IntersectionObserver(([entry]) => sticky.classList.toggle('is-visible', !entry.isIntersecting), {
+        threshold: 0.1,
+      }).observe(heroSection);
+    }
+
+    if (reduce) return;
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -536,29 +581,158 @@ const structuredData = {
       },
       { threshold: 0.25 }
     );
-    loops.forEach((video) => io.observe(video));
+    document.querySelectorAll('video[data-loop]').forEach((video) => io.observe(video));
   })();
 </script>
 
 <style>
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+  :global(body) {
+    font-size: 17px;
+  }
+  :global(main p),
+  :global(main dd),
+  :global(.hero p) {
+    text-wrap: pretty;
+  }
+  .wrap {
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 40px;
+    }
+  }
+  .skip {
+    position: absolute;
+    left: -9999px;
+  }
+  .skip:focus {
+    left: 16px;
+    top: 16px;
+    z-index: 50;
+    background: #fff;
+    padding: 8px 12px;
+  }
+  .text-accent {
+    color: var(--aw-color-primary);
+  }
+
+  /* Type */
+  .eyebrow {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .display {
+    font-family: var(--aw-font-heading);
+    font-weight: 400;
+    font-size: clamp(2.6rem, 6.2vw, 5.4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'opsz' 144;
+  }
+  .h2 {
+    font-family: var(--aw-font-heading);
+    font-weight: 400;
+    font-size: clamp(2rem, 4vw, 3.4rem);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+    color: var(--aw-color-text-heading);
+    font-variation-settings: 'opsz' 120;
+  }
+  .statement {
+    font-family: var(--aw-font-heading);
+    font-weight: 350;
+    font-size: clamp(1.6rem, 3vw, 2.5rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 72;
+  }
+  .lede {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--aw-color-text-muted);
+    max-width: 42rem;
+  }
+  .wordmark {
+    font-family: var(--aw-font-heading);
+    font-size: 1.25rem;
+    letter-spacing: -0.01em;
+    font-variation-settings: 'opsz' 48;
+  }
+
+  /* Buttons */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    padding: 0.85rem 1.6rem;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 1;
+    border: 1px solid transparent;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      border-color 0.2s;
+  }
+  .pill-accent {
+    background: var(--aw-color-primary);
+    color: #fff;
+  }
+  .pill-accent:hover {
+    background: var(--aw-color-secondary);
+  }
+  .pill-ghost {
+    border-color: rgb(255 255 255 / 70%);
+    color: #fff;
+  }
+  .pill-ghost:hover {
+    background: rgb(255 255 255 / 12%);
+  }
+  .pill-light {
+    background: rgb(255 255 255 / 92%);
+    color: #221f1b;
+    padding: 0.6rem 1.2rem;
+  }
+  .pill-light:hover {
+    background: #fff;
+  }
+
+  /* Hero */
   .hero {
     min-height: 100svh;
     max-height: 1000px;
     display: flex;
+    flex-direction: column;
+  }
+  .site-header {
+    position: absolute;
+    inset: 0 0 auto 0;
+    padding-block: 20px;
+    z-index: 10;
+  }
+  .nav-link {
+    color: rgb(255 255 255 / 88%);
+  }
+  .nav-link:hover {
+    color: #fff;
   }
   .hero-content {
     width: 100%;
-    padding-top: 4.5rem;
+    flex: 1;
+    padding-top: 7rem;
     padding-bottom: 3rem;
     justify-content: flex-start;
   }
   .hero-shade {
-    background: linear-gradient(
-      to bottom,
-      rgba(20, 16, 12, 0.72) 0%,
-      rgba(20, 16, 12, 0.35) 45%,
-      rgba(20, 16, 12, 0) 70%
-    );
+    background: linear-gradient(to bottom, rgb(20 16 12 / 75%) 0%, rgb(20 16 12 / 38%) 48%, rgb(20 16 12 / 0%) 72%);
   }
   .hero-media {
     object-position: 50% 60%;
@@ -572,21 +746,129 @@ const structuredData = {
     }
     .hero-content {
       justify-content: flex-end;
-      padding-bottom: 5rem;
+      padding-bottom: clamp(3rem, 7vw, 6rem);
     }
     .hero-shade {
       background:
-        linear-gradient(to right, rgba(20, 16, 12, 0.7) 0%, rgba(20, 16, 12, 0.35) 40%, rgba(20, 16, 12, 0) 65%),
-        linear-gradient(to top, rgba(20, 16, 12, 0.45) 0%, rgba(20, 16, 12, 0) 40%);
+        linear-gradient(to right, rgb(20 16 12 / 72%) 0%, rgb(20 16 12 / 36%) 42%, rgb(20 16 12 / 0%) 66%),
+        linear-gradient(to bottom, rgb(20 16 12 / 45%) 0%, rgb(20 16 12 / 0%) 22%);
     }
     .hero-media {
       object-position: 50% 50%;
     }
   }
+
+  /* Sections */
+  .section {
+    padding-block: clamp(4.5rem, 10vw, 8.5rem);
+  }
+  .section-tint {
+    background: #ece5d8;
+  }
+  .band {
+    height: clamp(320px, 62vw, 760px);
+    overflow: hidden;
+  }
+
+  /* The place */
+  .facts {
+    display: grid;
+    gap: 1.25rem;
+    border-top: 1px solid rgb(33 30 26 / 16%);
+    padding-top: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .facts {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .facts li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .fact-value {
+    font-family: var(--aw-font-heading);
+    font-size: 1.6rem;
+  }
+  .fact-label {
+    color: var(--aw-color-text-muted);
+    font-size: 15px;
+  }
+
+  /* Routes */
+  .routes {
+    border-top: 1px solid rgb(33 30 26 / 22%);
+  }
+  .route {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    grid-template-areas:
+      'num name price'
+      '. body body';
+    gap: 0.25rem 1rem;
+    align-items: baseline;
+    padding-block: 1.6rem;
+    border-bottom: 1px solid rgb(33 30 26 / 16%);
+  }
+  @media (min-width: 768px) {
+    .route {
+      grid-template-columns: calc(25% - 1.5rem) 1fr auto;
+      grid-template-areas:
+        'num name price'
+        '. body .';
+      gap: 0.25rem 2rem;
+      padding-block: 2rem;
+    }
+  }
+  .route-number {
+    grid-area: num;
+    font-family: var(--aw-font-heading);
+    color: var(--aw-color-primary);
+    font-size: 1.1rem;
+  }
+  .route-name {
+    grid-area: name;
+    font-family: var(--aw-font-heading);
+    font-weight: 400;
+    font-size: clamp(1.5rem, 2.6vw, 2.1rem);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+  .route-body {
+    grid-area: body;
+  }
+  .route-summary {
+    margin-top: 0.25rem;
+    color: var(--aw-color-text-muted);
+    max-width: 36rem;
+    line-height: 1.55;
+  }
+  .route-meta {
+    margin-top: 0.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    font-size: 14px;
+  }
+  .route-price {
+    grid-area: price;
+    font-family: var(--aw-font-heading);
+    font-size: clamp(1.3rem, 2.2vw, 1.8rem);
+    white-space: nowrap;
+  }
+  .route-price span {
+    font-family: var(--aw-font-sans);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--aw-color-text-muted);
+  }
+
+  /* Collage */
   .collage figure {
     overflow: hidden;
-    border-radius: 6px;
-    background: #e9e2d6;
+    border-radius: 3px;
+    background: #ddd4c4;
   }
   .collage video {
     width: 100%;
@@ -594,6 +876,78 @@ const structuredData = {
     object-fit: cover;
     display: block;
   }
+
+  /* Good to know */
+  .info {
+    border-top: 1px solid rgb(33 30 26 / 22%);
+  }
+  .info-row {
+    display: grid;
+    gap: 0.4rem 2rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid rgb(33 30 26 / 16%);
+  }
+  @media (min-width: 768px) {
+    .info-row {
+      grid-template-columns: 11rem 1fr;
+    }
+  }
+  .info dt {
+    font-weight: 600;
+  }
+  .info dd {
+    color: var(--aw-color-text-muted);
+    line-height: 1.6;
+  }
+
+  /* Closing and footer */
+  .closing {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+  .closing > .wrap {
+    width: 100%;
+  }
+  .site-footer {
+    background: #221f1b;
+    color: #f5f0e7;
+  }
+  @media (max-width: 767px) {
+    .site-footer {
+      padding-bottom: 72px;
+    }
+  }
+  .footer-link {
+    color: #f5f0e7;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgb(245 240 231 / 40%);
+  }
+  .footer-link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* Phone booking button */
+  .sticky-book {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    z-index: 40;
+    box-shadow: 0 8px 24px rgb(20 16 12 / 28%);
+    transform: translateY(160%);
+    transition: transform 0.3s ease;
+  }
+  :global(.sticky-book.is-visible) {
+    transform: none;
+  }
+  @media (min-width: 768px) {
+    .sticky-book {
+      display: none;
+    }
+  }
+
   .tbc {
     background: #fff3c4;
     color: #6b4e00;
