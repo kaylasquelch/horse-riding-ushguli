@@ -281,8 +281,8 @@ const structuredData = {
           mountain horses.
         </p>
         <div class="mt-8 flex flex-wrap gap-3">
-          <a class="pill pill-accent" href={whatsappHref}>Book on WhatsApp</a>
-          <a class="pill pill-ghost" href="#tours">See the routes</a>
+          <a class="pill pill-accent pill-lg" href={whatsappHref}>Book on WhatsApp</a>
+          <a class="pill pill-ghost pill-lg" href="#tours">See the routes</a>
         </div>
       </div>
     </div>
@@ -511,14 +511,14 @@ const structuredData = {
       />
       <div class="absolute inset-0 -z-10 bg-[#221f1b]/60"></div>
       <div class="wrap text-center py-24 md:py-32">
-        <p class="eyebrow text-white/80">Book your ride</p>
+        <p class="eyebrow eyebrow-lg text-white/85">Book your ride</p>
         <h2 class="display mt-4 text-white">Ready to ride in Ushguli?</h2>
         <p class="mt-5 text-lg md:text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
           Send us a WhatsApp message with your preferred dates, group size and riding experience. We’ll reply with
           suggested routes and prices.
         </p>
         <p class="mt-8">
-          <a class="pill pill-accent" href={whatsappHref}>Book on WhatsApp</a>
+          <a class="pill pill-accent pill-lg" href={whatsappHref}>Book on WhatsApp</a>
         </p>
       </div>
     </section>
@@ -625,9 +625,12 @@ const structuredData = {
 
   /* Type */
   .eyebrow {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 500;
     letter-spacing: 0.06em;
+  }
+  .eyebrow-lg {
+    font-size: clamp(16px, 1.6vw, 20px);
   }
   .display {
     font-family: var(--aw-font-heading);
@@ -677,11 +680,18 @@ const structuredData = {
     font-weight: 500;
     font-size: 15px;
     line-height: 1;
+    white-space: nowrap;
     border: 1px solid transparent;
     transition:
       background-color 0.2s,
       color 0.2s,
       border-color 0.2s;
+  }
+  @media (min-width: 768px) {
+    .pill-lg {
+      padding: 1.05rem 2.1rem;
+      font-size: 17px;
+    }
   }
   .pill-accent {
     background: var(--aw-color-primary);
@@ -804,18 +814,29 @@ const structuredData = {
     font-size: 15px;
   }
 
-  /* Routes: the ask button stays in view on the right while the list scrolls */
+  /* Routes: a centred column; on wide screens the ask button stays in view in the right-hand margin */
+  .routes-layout > div {
+    max-width: 760px;
+    margin-inline: auto;
+  }
   .routes-aside {
     display: none;
   }
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     .routes-layout {
       display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 3.5rem;
+      grid-template-columns: 1fr minmax(0, 760px) 1fr;
+      column-gap: 2rem;
+    }
+    .routes-layout > div {
+      grid-column: 2;
+      max-width: none;
+      margin-inline: 0;
     }
     .routes-aside {
       display: block;
+      grid-column: 3;
+      justify-self: end;
     }
     .routes-aside .pill {
       position: sticky;
@@ -840,7 +861,7 @@ const structuredData = {
   }
   @media (min-width: 768px) {
     .route {
-      grid-template-columns: 4rem 1fr auto;
+      grid-template-columns: 3.5rem 1fr auto;
       grid-template-areas:
         'num name price'
         '. body .';
@@ -940,7 +961,7 @@ const structuredData = {
     background: #221f1b;
     color: #f5f0e7;
   }
-  @media (max-width: 1023px) {
+  @media (max-width: 1279px) {
     .site-footer {
       padding-bottom: 72px;
     }
@@ -971,7 +992,7 @@ const structuredData = {
   :global(.sticky-book.is-visible) {
     transform: none;
   }
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     .sticky-book {
       display: none;
     }
